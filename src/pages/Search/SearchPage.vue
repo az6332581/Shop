@@ -11,10 +11,9 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="params.categoryName">
+              {{ params.categoryName }}<i @click="delCategoryName">×</i>
+            </li>
           </ul>
         </div>
 
@@ -59,7 +58,7 @@
                   <div class="price">
                     <strong>
                       <em>¥</em>
-                      <i> {{good.price}}.00</i>
+                      <i> {{ good.price }}.00</i>
                     </strong>
                   </div>
                   <div class="attr">
@@ -67,7 +66,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{good.title}}</a
+                      >{{ good.title }}</a
                     >
                   </div>
                   <div class="commit">
@@ -129,11 +128,61 @@ import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "SearchPage",
   components: { SearchSelector },
+  data() {
+    return {
+      params: {
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
+        categoryName: "",
+        keyword: "",
+        order: "1:desc",
+        pageNo: 1,
+        pageSize: 10,
+        props: [],
+        trademark: "",
+      },
+    };
+  },
+  beforeMount() {
+    this.sendParams();
+  },
   mounted() {
-    this.$store.dispatch("searchInfo/getSearchData", {});
+    this.getData();
   },
   computed: {
-    ...mapGetters('searchInfo',['goodsList']),
+    ...mapGetters("searchInfo", ["goodsList"]),
+  },
+  methods: {
+    getData() {
+      this.$store.dispatch("searchInfo/getSearchData", this.parms);
+    },
+    sendParams() {
+      let category = {
+        categoryName: this.$route.query.categoryName || undefined,
+        category1Id: this.$route.query.list1id || undefined,
+        category2Id: this.$route.query.list2id || undefined,
+        category3Id: this.$route.query.list3id || undefined,
+      };
+      Object.assign(this.params, category, this.$route.params);
+      // console.log(Object.assign(this.parms, category, this.$route.params));
+    },
+    delCategoryName() {
+      this.params.categoryName = undefined;
+      this.params.category1Id = undefined;
+      this.params.category2Id = undefined;
+      this.params.category3Id = undefined;
+      this.getData();
+      if (this.$route.params) {
+        this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
+  },
+  watch: {
+    $route() {
+      this.sendParams();
+      this.$store.dispatch("searchInfo/getSearchData", this.params);
+    },
   },
 };
 </script>

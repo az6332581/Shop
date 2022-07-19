@@ -65,7 +65,7 @@ export default {
       let loc = {
         name: "search",
         params: {
-          searchInput: this.searchInput,
+          keyword: this.searchInput,
         },
       };
       if (this.$route.query) {

@@ -4,7 +4,7 @@
       <div @mouseleave="mouseLeaveAll" @mouseenter="mouseInAll">
         <h2 class="all">全部商品分类</h2>
         <transition name="sort">
-          <div class="sort"  v-show="show">
+          <div class="sort" v-show="show">
             <div class="all-sort-list2" @click="goSearch">
               <div
                 class="item"
@@ -13,7 +13,11 @@
                 :class="{ focus: focusIndex == index }"
               >
                 <h3 @mouseenter="mouseIn(index)">
-                  <a :data-listname = l1.categoryName :data-list1id = l1.categoryId>{{ l1.categoryName }}</a>
+                  <a
+                    :data-listname="l1.categoryName"
+                    :data-list1id="l1.categoryId"
+                    >{{ l1.categoryName }}</a
+                  >
                 </h3>
                 <div
                   class="item-list clearfix"
@@ -26,11 +30,19 @@
                       :key="l2.categoryId"
                     >
                       <dt>
-                        <a :data-listname = l2.categoryName :data-list2id = l2.categoryId>{{ l2.categoryName }}</a>
+                        <a
+                          :data-listname="l2.categoryName"
+                          :data-list2id="l2.categoryId"
+                          >{{ l2.categoryName }}</a
+                        >
                       </dt>
                       <dd>
                         <em v-for="l3 in l2.categoryChild" :key="l3.categoryId">
-                          <a :data-listname = l3.categoryName :data-list3id = l3.categoryId>{{ l3.categoryName }}</a>
+                          <a
+                            :data-listname="l3.categoryName"
+                            :data-list3id="l3.categoryId"
+                            >{{ l3.categoryName }}</a
+                          >
                         </em>
                       </dd>
                     </dl>
@@ -57,57 +69,57 @@
 
 <script>
 import { mapState } from "vuex";
-import throttle from 'lodash/throttle'
+import throttle from "lodash/throttle";
 export default {
   name: "NavPage",
   data() {
     return {
       focusIndex: -1,
-      show:true
+      show: true,
     };
   },
   mounted() {
     // console.log(this);
-    if (this.$route.path != '/home') {
-      this.show = false
+    if (this.$route.path != "/home") {
+      this.show = false;
     }
   },
   computed: {
-    ...mapState('homeInfo', ["NavData"]),
+    ...mapState("homeInfo", ["NavData"]),
   },
   methods: {
-    mouseIn:throttle(function (index) {
+    mouseIn: throttle(function (index) {
       this.focusIndex = index;
       // console.log(index);
-    },50),
-    goSearch(event){
-      let {listname,list1id,list2id,list3id} = event.target.dataset
-      let loc = {name:'search'}
-      let query = {'listname':listname}
-      if(listname){
+    }, 50),
+    goSearch(event) {
+      let { listname, list1id, list2id, list3id } = event.target.dataset;
+      let loc = { name: "search" };
+      let query = { categoryName: listname };
+      if (listname) {
         if (list1id) {
-          query.list1id = list1id
-        }else if(list2id){
-          query.list2id = list2id
-        }else {
-          query.list3id = list3id
+          query.list1id = list1id;
+        } else if (list2id) {
+          query.list2id = list2id;
+        } else {
+          query.list3id = list3id;
         }
-        loc.query = query
+        loc.query = query;
       }
       if (this.$route.params) {
-        loc.params = this.$route.params
+        loc.params = this.$route.params;
       }
-      this.$router.push(loc)
+      this.$router.push(loc);
     },
-    mouseInAll(){
-      this.show = true
+    mouseInAll() {
+      this.show = true;
     },
-    mouseLeaveAll(){
-      this.focusIndex = -1
-      if (this.$route.path != '/home') {
-        this.show = false
+    mouseLeaveAll() {
+      this.focusIndex = -1;
+      if (this.$route.path != "/home") {
+        this.show = false;
       }
-    }
+    },
   },
 };
 </script>
@@ -227,23 +239,23 @@ export default {
         }
       }
     }
-    .sort-enter{
+    .sort-enter {
       height: 0;
     }
-    .sort-enter-to{
+    .sort-enter-to {
       height: 416px;
     }
-    .sort-enter-active{
-      transition: all .1s linear;
+    .sort-enter-active {
+      transition: all 0.1s linear;
     }
-    .sort-leave{
+    .sort-leave {
       height: 416px;
     }
-    .sort-leave-to{
+    .sort-leave-to {
       height: 0;
     }
-    .sort-leave-active{
-      transition: all .1s linear;
+    .sort-leave-active {
+      transition: all 0.1s linear;
     }
   }
 }

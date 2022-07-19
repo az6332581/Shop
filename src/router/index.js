@@ -11,54 +11,54 @@ Vue.use(VueRouter)
 let originPush = VueRouter.prototype.push
 let originReplace = VueRouter.prototype.replace
 
-VueRouter.prototype.push = function (loc,resolve,reject) {
+VueRouter.prototype.push = function (loc, resolve, reject) {
   if (resolve && reject) {
-    originPush.call(this,loc,resolve,reject)
+    originPush.call(this, loc, resolve, reject)
   } else {
-    originPush.call(this,loc,()=>{},()=>{})
+    originPush.call(this, loc, () => { }, () => { })
   }
 }
-VueRouter.prototype.replace = function (loc,resolve,reject) {
+VueRouter.prototype.replace = function (loc, resolve, reject) {
   if (resolve && reject) {
-    originReplace.call(this,loc,resolve,reject)
+    originReplace.call(this, loc, resolve, reject)
   } else {
-    originReplace.call(this,loc,()=>{},()=>{})
+    originReplace.call(this, loc, () => { }, () => { })
   }
 }
-      
+
 export default new VueRouter({
   routes: [
     {
-      path:'/home',
-      component:HomePage,
-      meta:{showpage:true}
+      path: '/home',
+      component: HomePage,
+      meta: { showpage: true }
     },
     {
-      path:'/search/:searchInput',
-      component:SearchPage,
-      meta:{showpage:true},
-      name:'search',
+      path: '/search/:keyword',
+      component: SearchPage,
+      meta: { showpage: true },
+      name: 'search',
       // props:true
       // props($route){
       //   return {
       //     searchInput:$route.params.searchInput,
       //     input:$route.jqery.input
       // }}
-      props:($route) =>({searchInput:$route.params.searchInput,input:$route.query.input})
+      props: ($route) => ({ keyword: $route.params.keyword, category: $route.query })
     },
     {
-      path:'/login',
-      component:LoginPage,
-      meta:{showpage:false}
+      path: '/login',
+      component: LoginPage,
+      meta: { showpage: false }
     },
     {
-      path:'/reguster',
-      component:RegisterPage,
-      meta:{showpage:false}
+      path: '/reguster',
+      component: RegisterPage,
+      meta: { showpage: false }
     },
     {
-      path:'/',
-      redirect:'/home',
+      path: '/',
+      redirect: '/home',
     }
   ]
 })

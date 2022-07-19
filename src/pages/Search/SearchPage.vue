@@ -14,11 +14,25 @@
             <li class="with-x" v-if="params.categoryName">
               {{ params.categoryName }}<i @click="delCategoryName">×</i>
             </li>
+            <li class="with-x" v-if="params.keyword">
+              {{ params.keyword }}<i @click="delKeyWord">×</i>
+            </li>
+            <li class="with-x" v-if="params.trademark">
+              {{ params.trademark.split(":")[1] }}<i @click="delTradeMark">×</i>
+            </li>
+            <li
+              class="with-x"
+              v-if="params.props"
+              v-for="(attr, index) in params.props"
+              :key="index"
+            >
+              {{ attr.split(":")[1] }}<i @click="delattr(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @tradeMarkInfo="tradeMarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -138,7 +152,7 @@ export default {
         keyword: "",
         order: "1:desc",
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 3,
         props: [],
         trademark: "",
       },
@@ -155,7 +169,7 @@ export default {
   },
   methods: {
     getData() {
-      this.$store.dispatch("searchInfo/getSearchData", this.parms);
+      this.$store.dispatch("searchInfo/getSearchData", this.params);
     },
     sendParams() {
       let category = {
@@ -177,11 +191,38 @@ export default {
         this.$router.push({ name: "search", params: this.$route.params });
       }
     },
+    delKeyWord() {
+      this.params.keyword = undefined;
+      this.getData();
+      this.$bus.$emit("clearKeyWord");
+      if (this.$route.query) {
+        this.$router.push({ name: "search", query: this.$route.query });
+      }
+    },
+    tradeMarkInfo(val) {
+      this.params.trademark = val;
+      this.getData();
+    },
+    delTradeMark() {
+      this.params.trademark = undefined;
+      this.getData();
+    },
+    attrInfo(attrs, attrValue) {
+      let attr = `${attrs.attrId}:${attrValue}:${attrs.attrName}`;
+      if (this.params.props.indexOf(attr) == -1) {
+        this.params.props.push(attr);
+      }
+      this.getData();
+    },
+    delattr(index) {
+      this.params.props.splice(index, 1);
+      this.getData();
+    },
   },
   watch: {
     $route() {
       this.sendParams();
-      this.$store.dispatch("searchInfo/getSearchData", this.params);
+      this.getData();
     },
   },
 };

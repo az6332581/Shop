@@ -60,6 +60,11 @@ export default {
       searchInput: "",
     };
   },
+  mounted() {
+    this.$bus.$on("clearKeyWord", () => {
+      this.searchInput = "";
+    });
+  },
   methods: {
     goToSearch() {
       let loc = {
@@ -72,7 +77,6 @@ export default {
         loc.query = this.$route.query;
       }
       this.$router.push(loc);
-      this.searchInput = "";
     },
   },
 };

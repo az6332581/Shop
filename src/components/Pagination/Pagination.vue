@@ -1,18 +1,38 @@
 <template>
   <div class="pagination">
-    <button>上一頁</button>
-    <button>1</button>
-    <button>···</button>
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
-    <button>7</button>
+    <button :disabled="pageNo == 1" @click="oderInfo(pageNo - 1)">
+      上一頁
+    </button>
+    <button
+      v-if="showRange.start > 1"
+      @click="oderInfo(1)"
+      :class="{ active: pageNo == 1 }"
+    >
+      1
+    </button>
+    <button v-if="showRange.start > 2">···</button>
 
-    <button>···</button>
-    <button>{{ totalPage }}</button>
-    <button>下一頁</button>
+    <button
+      v-for="(range, index) in showRange.end"
+      :key="index"
+      v-if="range >= showRange.start"
+      @click="oderInfo(range)"
+      :class="{ active: pageNo == range }"
+    >
+      {{ range }}
+    </button>
 
+    <button v-if="showRange.end < totalPage - 1">···</button>
+    <button
+      v-if="showRange.end < totalPage"
+      @click="oderInfo(totalPage)"
+      :class="{ active: pageNo == totalPage }"
+    >
+      {{ totalPage }}
+    </button>
+    <button :disabled="pageNo == totalPage" @click="oderInfo(pageNo + 1)">
+      下一頁
+    </button>
     <button style="margin-left: 30px">共 {{ total }} 個</button>
   </div>
 </template>
@@ -46,6 +66,11 @@ export default {
       return { start, end };
     },
   },
+  methods: {
+    oderInfo(val) {
+      this.$emit("oderInfo", val);
+    },
+  },
 };
 </script>
 
@@ -77,7 +102,7 @@ export default {
 
     &.active {
       cursor: not-allowed;
-      background-color: #409eff;
+      background-color: #e1251b;
       color: #fff;
     }
   }

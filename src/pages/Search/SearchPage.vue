@@ -69,9 +69,9 @@
               <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
+                    <router-link :to="`/detail/${good.id}`"
                       ><img :src="good.defaultImg"
-                    /></a>
+                    /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -105,7 +105,13 @@
               </li>
             </ul>
           </div>
-          <Pagination :pageNo="31" :pageSize="3" :total="91" :pageRange="5" />
+          <Pagination
+            :pageNo="params.pageNo"
+            :pageSize="params.pageSize"
+            :total="SearchData.total"
+            :pageRange="5"
+            @oderInfo="oderInfo"
+          />
         </div>
       </div>
     </div>
@@ -113,7 +119,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "SearchPage",
@@ -128,7 +134,7 @@ export default {
         keyword: "",
         order: "1:asc",
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 5,
         props: [],
         trademark: "",
       },
@@ -142,6 +148,7 @@ export default {
   },
   computed: {
     ...mapGetters("searchInfo", ["goodsList"]),
+    ...mapState("searchInfo", ["SearchData"]),
     orderOne() {
       return this.params.order.indexOf("1") !== -1;
     },
@@ -164,7 +171,6 @@ export default {
         category3Id: this.$route.query.list3id || undefined,
       };
       Object.assign(this.params, category, this.$route.params);
-      // console.log(Object.assign(this.parms, category, this.$route.params));
     },
     delCategoryName() {
       this.params.categoryName = undefined;
@@ -215,6 +221,10 @@ export default {
           this.params.order = `${current}:asc`;
         }
       }
+      this.getData();
+    },
+    oderInfo(val) {
+      this.params.pageNo = val;
       this.getData();
     },
   },

@@ -4,10 +4,12 @@ import router from "./router/index";
 
 import NavPage from "./components/Nav/NavPage";
 import CarouselPage from "./components/Carousel/CarouselPage";
+import Pagination from "./components/Pagination/Pagination";
 
 Vue.config.productionTip = false
 Vue.component(NavPage.name, NavPage)
 Vue.component(CarouselPage.name, CarouselPage)
+Vue.component(Pagination.name, Pagination)
 
 import store from "./store";
 import './mock/mock'

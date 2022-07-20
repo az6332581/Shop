@@ -22,7 +22,6 @@
             </li>
             <li
               class="with-x"
-              v-if="params.props"
               v-for="(attr, index) in params.props"
               :key="index"
             >
@@ -39,8 +38,19 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: orderOne }" @click="orderchange('1')">
+                  <a>综合</a>
+                  <div v-show="orderOne">
+                    <span v-if="ordercheck">⬆</span>
+                    <span v-else>⬇</span>
+                  </div>
+                </li>
+                <li :class="{ active: orderTwo }" @click="orderchange('2')">
+                  <a>价格</a>
+                  <div v-show="orderTwo">
+                    <span v-if="ordercheck">⬆</span>
+                    <span v-else>⬇</span>
+                  </div>
                 </li>
                 <li>
                   <a href="#">销量</a>
@@ -50,12 +60,6 @@
                 </li>
                 <li>
                   <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
                 </li>
               </ul>
             </div>
@@ -101,35 +105,7 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination :pageNo="31" :pageSize="3" :total="91" :pageRange="5" />
         </div>
       </div>
     </div>
@@ -150,7 +126,7 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "1:desc",
+        order: "1:asc",
         pageNo: 1,
         pageSize: 3,
         props: [],
@@ -166,6 +142,15 @@ export default {
   },
   computed: {
     ...mapGetters("searchInfo", ["goodsList"]),
+    orderOne() {
+      return this.params.order.indexOf("1") !== -1;
+    },
+    orderTwo() {
+      return this.params.order.indexOf("2") !== -1;
+    },
+    ordercheck() {
+      return this.params.order.indexOf("asc") !== -1;
+    },
   },
   methods: {
     getData() {
@@ -216,6 +201,20 @@ export default {
     },
     delattr(index) {
       this.params.props.splice(index, 1);
+      this.getData();
+    },
+    orderchange(current) {
+      let originOrder = this.params.order.split(":")[0];
+      let originSwitch = this.params.order.split(":")[1];
+      if (current !== originOrder) {
+        this.params.order = `${current}:${originSwitch}`;
+      } else if (current == originOrder) {
+        if (originSwitch == "asc") {
+          this.params.order = `${current}:desc`;
+        } else if (originSwitch == "desc") {
+          this.params.order = `${current}:asc`;
+        }
+      }
       this.getData();
     },
   },
@@ -328,7 +327,8 @@ export default {
             li {
               float: left;
               line-height: 18px;
-
+              display: flex;
+              align-items: center;
               a {
                 display: block;
                 cursor: pointer;
@@ -341,6 +341,14 @@ export default {
                 a {
                   background: #e1251b;
                   color: #fff;
+                }
+              }
+              > div {
+                background: #e1251b;
+                padding-right: 3px;
+                > span {
+                  line-height: 40px;
+                  color: white;
                 }
               }
             }

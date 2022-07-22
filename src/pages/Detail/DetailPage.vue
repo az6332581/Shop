@@ -22,9 +22,9 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom :skuImageList="skuInfo.skuImageList" />
+          <Zoom :skuImageList="skuInfo.skuImageList || []" />
           <!-- 小图列表 -->
-          <ImageList :skuImageList="skuInfo.skuImageList" />
+          <ImageList :skuImageList="skuInfo.skuImageList || []" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -397,6 +397,11 @@ export default {
           pdid: this.$route.params.pdid,
           count: this.count,
         });
+        this.$router.push({
+          name: "AddCartSuccess",
+          query: { count: this.count },
+        });
+        sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
       } catch (error) {
         alert(error.message);
       }

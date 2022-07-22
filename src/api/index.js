@@ -43,3 +43,24 @@ export const sendShopCart = (pdid, count) => {
     method: 'post',
   })
 }
+
+export const getCartList = () => {
+  return requests({
+    url: `/cart/cartList`,
+    method: 'get',
+  })
+}
+
+export const delCartList = (pdid) => {
+  return requests({
+    url: `/cart/deleteCart/${pdid}`,
+    method: 'delete',
+  })
+}
+
+export const updateChecked = (pdid, isChecked) => {
+  return requests({
+    url: `/cart/checkCart/${pdid}/${isChecked}`,
+    method: 'get',
+  })
+}

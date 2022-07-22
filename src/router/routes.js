@@ -3,6 +3,8 @@ import LoginPage from '@/pages/Login/LoginPage.vue'
 import RegisterPage from '@/pages/Register/RegisterPage.vue'
 import SearchPage from '@/pages/Search/SearchPage.vue'
 import DetailPage from "@/pages/Detail/DetailPage.vue";
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 export default [
   {
@@ -29,7 +31,7 @@ export default [
     meta: { showpage: false }
   },
   {
-    path: '/reguster',
+    path: '/register',
     component: RegisterPage,
     meta: { showpage: false }
   },
@@ -39,7 +41,19 @@ export default [
     meta: { showpage: true }
   },
   {
+    path: '/AddCartSuccess',
+    name: 'AddCartSuccess',
+    component: AddCartSuccess,
+    meta: { showpage: true }
+  },
+  {
+    path: '/ShopCart',
+    component: ShopCart,
+    meta: { showpage: true }
+  },
+  {
     path: '/',
     redirect: '/home',
   }
+
 ]

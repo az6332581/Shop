@@ -1,5 +1,5 @@
 import { getGoodsData, sendShopCart } from "@/api"
-
+import { getUUID } from '@/utils/uuid_token'
 const actions = {
   async getGoodsData(content, value) {
     let goodsData = await getGoodsData(value)
@@ -22,7 +22,8 @@ const mutations = {
   }
 }
 const state = {
-  goodsData: {}
+  goodsData: {},
+  uuid_token: getUUID()
 }
 const getters = {
   categoryView(state) {

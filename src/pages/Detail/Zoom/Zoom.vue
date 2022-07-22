@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     imgListSrc() {
-      return this.skuImageList[this.imgIndex] || [];
+      return this.skuImageList[this.imgIndex] || {};
     },
   },
   methods: {

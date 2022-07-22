@@ -3,7 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <CarouselPage :lists="BannerData"/>
+        <CarouselPage :lists="BannerData" />
       </div>
       <div class="right">
         <div class="news">
@@ -162,7 +162,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/icons.png);
+            background-image: url(~@/assets/icons.png);
             width: 61px;
             height: 40px;
             display: block;

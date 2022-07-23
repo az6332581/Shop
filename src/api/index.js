@@ -64,3 +64,40 @@ export const updateChecked = (pdid, isChecked) => {
     method: 'get',
   })
 }
+
+export const getCode = (phone) => {
+  return requests({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'get'
+  })
+}
+
+export const registerUser = (data) => {
+  return requests({
+    url: `/user/passport/register`,
+    data,
+    method: 'post'
+  })
+}
+
+export const loginUser = (data) => {
+  return requests({
+    url: `/user/passport/login`,
+    data,
+    method: 'post'
+  })
+}
+
+export const getUserInfo = () => {
+  return requests({
+    url: `/user/passport/auth/getUserInfo`,
+    method: 'get'
+  })
+}
+
+export const logoutUser = () => {
+  return requests({
+    url: `/user/passport/logout`,
+    method: 'get'
+  })
+}

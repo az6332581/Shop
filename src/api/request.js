@@ -9,10 +9,13 @@ const requests = axios.create({
 })
 
 requests.interceptors.request.use((config) => {
-  nprogress.start()
   if (store.state.detailInfo.uuid_token) {
     config.headers.userTempId = store.state.detailInfo.uuid_token
   }
+  if (store.state.userInfo.token) {
+    config.headers.token = store.state.userInfo.token
+  }
+  nprogress.start()
   return config
 })
 

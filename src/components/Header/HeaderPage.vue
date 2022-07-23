@@ -5,10 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{ userName }}</a>
+            <a class="register" @click="logout">退出登入</a>
           </p>
         </div>
         <div class="typeList">
@@ -70,13 +74,27 @@ export default {
       let loc = {
         name: "search",
         params: {
-          keyword: this.searchInput,
+          keyword: this.searchInput || undefined,
         },
       };
       if (this.$route.query) {
         loc.query = this.$route.query;
       }
+      console.log(loc);
       this.$router.push(loc);
+    },
+    async logout() {
+      try {
+        await this.$store.dispatch("userInfo/logoutUser");
+        this.$router.push("/home");
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
+  computed: {
+    userName() {
+      return this.$store.state.userInfo.userInfo.name;
     },
   },
 };

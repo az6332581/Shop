@@ -5,6 +5,7 @@ import SearchPage from '@/pages/Search/SearchPage.vue'
 import DetailPage from "@/pages/Detail/DetailPage.vue";
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
 
 export default [
   {
@@ -13,10 +14,10 @@ export default [
     meta: { showpage: true }
   },
   {
+    name: 'search',
     path: '/search/:keyword?',
     component: SearchPage,
     meta: { showpage: true },
-    name: 'search',
     // props:true
     // props($route){
     //   return {
@@ -49,6 +50,11 @@ export default [
   {
     path: '/ShopCart',
     component: ShopCart,
+    meta: { showpage: true }
+  },
+  {
+    path: '/trade',
+    component: Trade,
     meta: { showpage: true }
   },
   {

@@ -101,3 +101,17 @@ export const logoutUser = () => {
     method: 'get'
   })
 }
+
+export const findUserAddressList = () => {
+  return requests({
+    url: `/user/userAddress/auth/findUserAddressList`,
+    method: 'get'
+  })
+}
+
+export const getTrade = () => {
+  return requests({
+    url: `/order/auth/trade`,
+    method: 'get'
+  })
+}

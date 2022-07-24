@@ -6,6 +6,7 @@ import searchInfo from "./search";
 import detailInfo from "./detail";
 import cartInfo from './cart';
 import userInfo from './user';
+import tradeInfo from './Trade'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     searchInfo,
     detailInfo,
     cartInfo,
-    userInfo
+    userInfo,
+    tradeInfo
   }
 })

@@ -6,6 +6,7 @@ import DetailPage from "@/pages/Detail/DetailPage.vue";
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
+import Pay from '@/pages/Pay'
 
 export default [
   {
@@ -55,6 +56,11 @@ export default [
   {
     path: '/trade',
     component: Trade,
+    meta: { showpage: true }
+  },
+  {
+    path: '/pay',
+    component: Pay,
     meta: { showpage: true }
   },
   {

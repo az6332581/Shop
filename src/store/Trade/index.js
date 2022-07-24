@@ -24,8 +24,8 @@ export default {
     },
   },
   state: {
-    AddressList: {},
-    tradeList: []
+    AddressList: [],
+    tradeList: {}
   },
   getters: {
   }

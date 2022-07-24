@@ -108,7 +108,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="goPay">提交订单</a>
     </div>
   </div>
 </template>
@@ -120,6 +120,7 @@ export default {
   data() {
     return {
       msg: "",
+      orderId: "",
     };
   },
   mounted() {
@@ -142,6 +143,23 @@ export default {
         item.isDefault = "0";
       });
       AddressList[index].isDefault = "1";
+    },
+    async goPay() {
+      let data = {
+        consignee: this.finalAddress.consignee,
+        consigneeTel: this.finalAddress.phoneNum,
+        deliveryAddress: this.finalAddress.fullAddress,
+        paymentWay: "ONLINE",
+        orderComment: this.msg,
+        orderDetailList: this.tradeList.detailArrayList,
+      };
+      let result = await this.$API.submitOrder(this.tradeList.tradeNo, data);
+      if (result.code == 200) {
+        this.orderId = result.data;
+        this.$router.push(`/pay?orderId=${this.orderId}`);
+      } else {
+        alert("error");
+      }
     },
   },
 };

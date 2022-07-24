@@ -14,10 +14,13 @@ Vue.component(Pagination.name, Pagination)
 import store from "./store";
 import './mock/mock'
 import 'swiper/css/swiper.css'
+import * as API from '@/api'
+
 new Vue({
   render: h => h(App),
   beforeCreate() {
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
   },
   router: router,
   store,

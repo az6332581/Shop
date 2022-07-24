@@ -115,3 +115,18 @@ export const getTrade = () => {
     method: 'get'
   })
 }
+
+export const submitOrder = (tradeNo, data) => {
+  return requests({
+    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    data,
+    method: 'post'
+  })
+}
+
+export const getOrderInfo = (orderId) => {
+  return requests({
+    url: `/payment/weixin/createNative/${orderId}`,
+    method: 'get'
+  })
+}

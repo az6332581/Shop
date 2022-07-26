@@ -3,7 +3,7 @@ import mockrequests from './mockrequest'
 
 export const getCategoryList = () => {
   return requests({
-    url: 'product/getBaseCategoryList',
+    url: '/product/getBaseCategoryList',
     method: 'get'
   })
 }

@@ -48,7 +48,7 @@ export default [
     component: () => import('@/views/Trade'),
     meta: { showpage: true },
     beforeEnter(to, from, next) {
-      if (from.path == '/ShopCart') {
+      if (from.path == '/ShopCart' || from.path == '/login') {
         next()
       } else {
         next(false)

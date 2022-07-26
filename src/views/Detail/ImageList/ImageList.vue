@@ -51,7 +51,7 @@ export default {
               prevEl: ".swiper-button-prev",
             },
             slidesPerView: 3,
-            slidesPerGronp: 2,
+            slidesPerGronp: 1,
           });
         });
       },

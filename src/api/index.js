@@ -130,3 +130,17 @@ export const getOrderInfo = (orderId) => {
     method: 'get'
   })
 }
+
+export const getPayStatus = (orderId) => {
+  return requests({
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get'
+  })
+}
+
+export const getOrderList = (page, limit) => {
+  return requests({
+    url: `/order/auth/${page}/${limit}`,
+    method: 'get'
+  })
+}

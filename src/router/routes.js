@@ -1,23 +1,13 @@
-import HomePage from '@/pages/Home/HomePage.vue'
-import LoginPage from '@/pages/Login/LoginPage.vue'
-import RegisterPage from '@/pages/Register/RegisterPage.vue'
-import SearchPage from '@/pages/Search/SearchPage.vue'
-import DetailPage from "@/pages/Detail/DetailPage.vue";
-import AddCartSuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
-import Trade from '@/pages/Trade'
-import Pay from '@/pages/Pay'
-
 export default [
   {
     path: '/home',
-    component: HomePage,
+    component: () => import('@/views/Home/HomePage.vue'),
     meta: { showpage: true }
   },
   {
     name: 'search',
     path: '/search/:keyword?',
-    component: SearchPage,
+    component: () => import('@/views/Search/SearchPage.vue'),
     meta: { showpage: true },
     // props:true
     // props($route){
@@ -29,39 +19,81 @@ export default [
   },
   {
     path: '/login',
-    component: LoginPage,
+    component: () => import('@/views/Login/LoginPage.vue'),
     meta: { showpage: false }
   },
   {
     path: '/register',
-    component: RegisterPage,
+    component: () => import('@/views/Register/RegisterPage.vue'),
     meta: { showpage: false }
   },
   {
     path: '/detail/:pdid',
-    component: DetailPage,
+    component: () => import('@/views/Detail/DetailPage.vue'),
     meta: { showpage: true }
   },
   {
     path: '/AddCartSuccess',
     name: 'AddCartSuccess',
-    component: AddCartSuccess,
+    component: () => import('@/views/AddCartSuccess'),
     meta: { showpage: true }
   },
   {
     path: '/ShopCart',
-    component: ShopCart,
+    component: () => import('@/views/ShopCart'),
     meta: { showpage: true }
   },
   {
     path: '/trade',
-    component: Trade,
-    meta: { showpage: true }
+    component: () => import('@/views/Trade'),
+    meta: { showpage: true },
+    beforeEnter(to, from, next) {
+      if (from.path == '/ShopCart') {
+        next()
+      } else {
+        next(false)
+      }
+    }
   },
   {
     path: '/pay',
-    component: Pay,
-    meta: { showpage: true }
+    component: () => import('@/views/Pay'),
+    meta: { showpage: true },
+    beforeEnter: (to, from, next) => {
+      if (from.path == '/trade') {
+        next()
+      } else {
+        next(false)
+      }
+    }
+  },
+  {
+    path: '/paysussess',
+    component: () => import('@/views/PaySuccess'),
+    meta: { showpage: true },
+    beforeEnter: (to, from, next) => {
+      if (from.path == '/pay') {
+        next()
+      } else {
+        next(false)
+      }
+    }
+  },
+  {
+    path: '/center',
+    component: () => import('@/views/Center'),
+    meta: { showpage: true },
+    children: [{
+      path: 'myorder',
+      component: () => import('@/views/Center/myOrder')
+    }, {
+      path: 'grouporder',
+      component: () => import('@/views/Center/groupOrder')
+    },
+    {
+      path: '/center',
+      redirect: '/center/myorder'
+    }]
   },
   {
     path: '/',

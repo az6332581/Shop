@@ -50,7 +50,12 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    next()
+    if (to.path == '/trade' || to.path == '/pay' || to.path == '/paysussess' || to.path.indexOf('/center') !== -1) {
+      console.log("@@");
+      next(`/login?want=${to.path}`)
+    } else {
+      next()
+    }
   }
 })
 

@@ -92,7 +92,12 @@ export default {
         if (phone && password) {
           await this.$store.dispatch("userInfo/loginUser", { phone, password });
         }
-        this.$router.push("/home");
+        console.log(this.$route.query.want);
+        if (this.$route.query.want) {
+          this.$router.push(this.$route.query.want);
+        } else {
+          this.$router.push("/home");
+        }
       } catch (error) {
         alert(error.message);
       }

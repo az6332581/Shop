@@ -76,7 +76,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -93,11 +93,15 @@
 </template>
 
 <script>
+import QRCode from "qrcode";
+
 export default {
   name: "Pay",
   data() {
     return {
       OrderInfo: {},
+      timer: null,
+      code: "",
     };
   },
   mounted() {
@@ -113,6 +117,48 @@ export default {
       let result = await this.$API.getOrderInfo(this.orderId);
       if (result.code == 200) {
         this.OrderInfo = result.data;
+      }
+    },
+    async open() {
+      let result = await QRCode.toDataURL(this.OrderInfo.codeUrl);
+      this.$alert(`<img src="${result}" />`, "QRCODE支付", {
+        dangerouslyUseHTMLString: true,
+        showClose: false,
+        showCancelButton: true,
+        cancelButtonText: "支付遇見問題",
+        confirmButtonText: "以支付成功",
+        center: true,
+        beforeClose: (type, instance, done) => {
+          console.log(type);
+          if (type == "cancel") {
+            alert("聯繫管理員");
+            clearInterval(this.timer);
+            this.timer = null;
+            done();
+          } else {
+            // if (this.code == 200) {
+            clearInterval(this.timer);
+            this.timer = null;
+            done();
+            this.$router.push("/paysussess");
+            // }
+          }
+        },
+      })
+        .then(() => {})
+        .catch(() => {});
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          let result = await this.$API.getPayStatus(this.OrderInfo.orderId);
+          console.log(result);
+          if (result.code == 200) {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.code = result.code;
+            this.$msgbox.close();
+            this.$router.push("/paysussess");
+          }
+        }, 5000);
       }
     },
   },
@@ -270,3 +316,4 @@ export default {
   }
 }
 </style>
+

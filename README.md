@@ -3,6 +3,7 @@
 尚硅谷-前端
 
 尚品匯PC端項目練習
+熟悉前端框架Vue的基本操作，API串接及畫面的動態渲染，實現購物平台的功能，功能例如：商品清單、註冊/登入會員、購物車、結帳...等功能。
 
 使用vue、vue-router、vuex、axios、
 element UI、mockjs、nprogress、

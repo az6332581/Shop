@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkshop"]=self["webpackChunkshop"]||[]).push([[511],{511:function(e,n,u){u.r(n),u.d(n,{default:function(){return f}});var r=function(){var e=this,n=e.$createElement,u=e._self._c||n;return u("div",[e._v("團購訂單")])},t=[],l={name:"groupOrder"},s=l,c=u(1001),a=(0,c.Z)(s,r,t,!1,null,null,null),f=a.exports}}]);
+//# sourceMappingURL=511.ce6c3350.js.map
